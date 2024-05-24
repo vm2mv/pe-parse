@@ -192,9 +192,9 @@ bool readChar16(bounded_buffer *b, std::uint32_t offset, char16_t &out) {
   return true;
 }
 
-bounded_buffer *readFileToFileBuffer(const char *filePath) {
+bounded_buffer *readFileToFileBuffer(const std::filesystem::path &filePath) {
 #ifdef _WIN32
-  HANDLE h = CreateFileA(filePath,
+  HANDLE h = CreateFileW(filePath.wstring().c_str(),
                          GENERIC_READ,
                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
                          nullptr,
@@ -216,7 +216,7 @@ bounded_buffer *readFileToFileBuffer(const char *filePath) {
 
 #else
   // only where we have mmap / open / etc
-  int fd = open(filePath, O_RDONLY);
+  int fd = open(filePath.string().c_str(), O_RDONLY);
 
   if (fd == -1) {
     PE_ERR(PEERR_OPEN);

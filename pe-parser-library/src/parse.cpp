@@ -2563,7 +2563,7 @@ parsed_pe *ParsePEFromBuffer(bounded_buffer *buffer) {
   return p;
 }
 
-parsed_pe *ParsePEFromFile(const char *filePath) {
+parsed_pe *ParsePEFromFile(const std::filesystem::path &filePath) {
   auto buffer = readFileToFileBuffer(filePath);
 
   if (buffer == nullptr) {
